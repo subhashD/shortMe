@@ -16,7 +16,7 @@ class CreateClicksTable extends Migration
         Schema::create('clicks', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('ip');
             $table->string('referer')->nullable();
             $table->string('referer_host')->nullable();
