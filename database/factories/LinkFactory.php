@@ -2,7 +2,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Models\Link;
 use App\Models\User;
+use App\Helpers\LinkHelper;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -17,14 +19,16 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
-    $password = bcrypt('password');
+$factory->define(Link::class, function (Faker $faker) {
+    $user = factory(User::class)->create();
+    $longUrl = $faker->url;
+    $shortUrl = LinkHelper::createShortLink($longUrl);
 
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => $password ?? bcrypt('password'), // password
-        'remember_token' => Str::random(10),
+        'user_id' => $user->id,
+        'short_url' => $shortUrl,
+        'long_url' => $longUrl,
+        'long_url_hash' => LinkHelper::longUrlHash($longUrl),
+        'is_disabled' => 0
     ];
 });

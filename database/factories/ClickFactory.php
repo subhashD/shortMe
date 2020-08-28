@@ -2,9 +2,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\User;
+use App\Models\Click;
+use App\Helpers\ClickHelper;
 use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +17,15 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
-    $password = bcrypt('password');
+$factory->define(Click::class, function (Faker $faker) {
+    // $referer = $_SERVER['HTTP_REFERER'];
+    $referer = $faker->url;
 
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => $password ?? bcrypt('password'), // password
-        'remember_token' => Str::random(10),
+        // 'link_id' => 1,
+        'ip' => $faker->ipv4,
+        'referer' => $referer,
+        'referer_host' => ClickHelper::getHost($referer),
+        'user_agent' => $faker->userAgent
     ];
 });

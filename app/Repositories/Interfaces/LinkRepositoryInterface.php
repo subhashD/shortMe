@@ -8,6 +8,8 @@ interface LinkRepositoryInterface
 	public function get($link_id);
 
 	public function all();
+
+	public function getByCode(string $short_url);
 	
 	public function create(array $link_data);
 	

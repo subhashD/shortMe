@@ -7,24 +7,30 @@ use App\Models\Link;
 
 class LinkRepository implements LinkRepositoryInterface
 {
+	protected $model = null;
+
+	public function __construct(Link $link) {
+		$this->model = $link;
+	}
+	
 	public function get($link_id) {
-		return Link::find($link_id);
+		return $this->model->find($link_id);
 	}
 
-	public function getByCode($short_url) {
-		return Link::where('short_url', $short_url)->first();
+	public function getByCode(string $short_url) {
+		return $this->model->where('short_url', $short_url)->first();
 	}
 
 	public function all() {
-		return Link::orderByDesc('created_at')->get();
+		return $this->model->orderByDesc('created_at')->get();
 	}
 
 	public function create(array $link_data) {
-		return Link::create($link_data);
+		return $this->model->create($link_data);
 	}
 	
 	public function getByUser($user_id) {
-		$query = Link::orderByDesc('created_at');
+		$query = $this->model->orderByDesc('created_at');
 		
 		if(!blank($user_id))
 			$query = $query->where('user_id', $user_id);
@@ -33,11 +39,11 @@ class LinkRepository implements LinkRepositoryInterface
 	}
 
 	public function delete($link_id) {
-		return Link::destroy($link_id);
+		return $this->model->destroy($link_id);
 	}
 	
 	public function update($link_id, array $link_data) {
-		return Link::find($link_id)->update($link_data);
+		return $this->model->find($link_id)->update($link_data);
 	}
 
 }

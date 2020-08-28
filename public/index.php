@@ -6,7 +6,7 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylor@laravel.com>
  */
-
+error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 define('LARAVEL_START', microtime(true));
 
 /*
